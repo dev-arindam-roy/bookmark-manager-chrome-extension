@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="assets/css/placeholder-loading.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="btn-container">
+            <div class="btn-holder">
+                <button type="button" class="btn btn-all" id="allBtn">Get All</button>
+                <button type="button" class="btn btn-recent" id="recentBtn">Recent</button>
+                <input type="text" id="searchTxtb" class="search-keyword" placeholder="Search Keyword"/>
+                <button type="button" class="btn btn-search" id="searchBtn">Search</button>
+            </div>
+            <div class="info-holder" id="infoHolder"></div>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="result-container">
+            <table class="bookmark-table">
+                <thead>
+                    <tr>
+                        <th>Bookmark</th>
+                        <th style="width: 75px;">Date</th>
+                    </tr>
+                </thead>
+                <tbody id="result">
+
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 100%; height: 25px;"></div>
+    </div>
+    <script src="bookmark-script.min.js"></script>
+</body>
+</html>
