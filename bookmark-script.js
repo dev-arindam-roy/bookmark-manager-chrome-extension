@@ -2,6 +2,7 @@ const allBtn = document.querySelector('#allBtn');
 const searchBtn = document.querySelector('#searchBtn');
 const recentBtn = document.querySelector('#recentBtn');
 const result = document.querySelector('#result');
+const downloadBtn = document.querySelector('#downloadBookmarkCsv');
 
 const searchKeyword = document.querySelector('#searchTxtb');
 const infoText = document.querySelector('#infoHolder');
@@ -13,6 +14,7 @@ recentBtn.addEventListener('click', recentBookmarks);
 allBtn.addEventListener('click', allBookmarks);
 searchBtn.addEventListener('click', searchBookmarks);
 searchKeyword.addEventListener('keyup', searchBoxAction);
+downloadBtn.addEventListener('click', downloadAsCsv);
 
 window.addEventListener('DOMContentLoaded', async () => {
     result.innerHTML = initLoading();
@@ -203,6 +205,45 @@ function loadErrors(errorString) {
 /** No records rendering - UI */
 function noRecordsFound() {
     result.innerHTML = `<tr><td colspan="2">Oops! I'm very Sorry, No Bookmarks Found.</td></tr>`;
+}
+
+/** Download as CSV - json object */
+async function downloadAsCsv(e) {
+    e.preventDefault();
+    infoText.innerHTML = 'Start downloading...';
+    await getAllBookmarks().then((bookmarkJsonString) => {
+        createCsv(bookmarkJsonString);
+    }).catch((error) => {
+        loadErrors(error);
+    });
+}
+
+/** create CSV from Json Object */
+function createCsv(jsonString) {
+    const jsonObj = JSON.parse(jsonString);
+    if (jsonObj.length) {
+        const csvHeaders = Object.keys(jsonObj[0]).toString();
+        const csvDatas = jsonObj.map((item) => {
+            return Object.values(item).toString();
+        });
+        const csvReady = [csvHeaders, ...csvDatas].join('\n');
+        startCsvDownload(csvReady, jsonObj.length);
+    }
+}
+
+/** start csv download */
+function startCsvDownload(csvFormatString, dataCount = 0) {
+    const blob = new Blob([csvFormatString], { 'type': 'application/csv'});
+    const blobUrl = URL.createObjectURL(blob);
+    const aElem = document.createElement('a');
+    aElem.download = 'onex-bookmark-export-' + Date.now() + '.csv';
+    aElem.href = blobUrl;
+    aElem.style.display = 'none';
+    document.body.appendChild(aElem);
+    aElem.click();
+    aElem.remove();
+    URL.revokeObjectURL(blobUrl);
+    infoText.innerHTML = `${dataCount} - Bookmarks exported as CSV`;
 }
 
 /** Loading placeholder */
