@@ -56,6 +56,12 @@
     padding-left: 0px;
     padding-right: 0px;
 }
+.tr-loading-placeholder {
+    margin-bottom: 0 !important;
+}
+.tr-loading-placeholder .ph-col-12 {
+    margin-bottom: 0 !important;
+}
 .result-container {
     margin-top: 6px;
     width: 100%;
@@ -97,4 +103,7 @@
 .error-msg {
     color: red;
     font-weight: 600;
+}
+.remove-bookmark-btn {
+    float: right;
 }
